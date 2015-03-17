@@ -44,6 +44,11 @@ class Message extends \Phalcon\Mvc\Model
      * @var integer
      */
     protected $idFil;
+    
+    public function initialize(){
+    	$this->belongsTo("idUser", "User", "id");
+    	$this->hasMany("id", "Message", "idFil", array("alias"=>"MessagesFils"));
+    }
 
     /**
      * Method to set the value of field id

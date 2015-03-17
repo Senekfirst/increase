@@ -32,6 +32,12 @@ class User extends \Phalcon\Mvc\Model
      * @var string
      */
     protected $role;
+    
+    public function initialize(){
+    	$this->hasMany("id", "Projet", "idClient", array("alias"=>"Projets")); //On y accèdera par getProjets()
+    	$this->hasMany("id", "Usecase", "idDev", array("alias"=>"Developpeurs")); //On y accèdera par getDeveloppeurs()
+    	$this->hasMany("id", "Message", "idUser", array("alias"=>"Messages")); //On y accèdera par getMessages()
+    }
 
     /**
      * Method to set the value of field id

@@ -40,7 +40,8 @@ class Projet extends \Phalcon\Mvc\Model
     protected $idClient;
     
     public function initialize(){
-		$this->hasMany("idClient", "User", "id",array("alias"=>"Clients")); //On y accèdera par getClients()
+		$this->belongsTo("idClient", "User", "id");
+		$this->hasMany("id", "Message", "idProjet",array("alias"=>"Messages")); //On y accèdera par getMessages()
 	}
 
     /**

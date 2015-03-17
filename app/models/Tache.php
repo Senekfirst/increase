@@ -32,6 +32,10 @@ class Tache extends \Phalcon\Mvc\Model
      * @var string
      */
     protected $codeUseCase;
+    
+    public function initialize(){
+    	$this->belongsTo("codeUseCase", "Usecase", "code");
+    }
 
     /**
      * Method to set the value of field id

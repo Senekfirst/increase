@@ -38,6 +38,12 @@ class Usecase extends \Phalcon\Mvc\Model
      * @var integer
      */
     protected $idDev;
+    
+    public function initialize(){
+    	$this->belongsTo("idDev", "User", "id");
+    	$this->belongsTo("idProjet", "Projet", "id");
+    	$this->hasMany("code", "Tache", "codeUseCase", array("alias"=>"TachesLiees"));
+    }
 
     /**
      * Method to set the value of field code
