@@ -2,7 +2,8 @@
 
 error_reporting(E_ALL);
 
-try { //TOTO
+try { //TOTO 
+		//TATA
 
     /**
      * Read the configuration
