@@ -9,18 +9,16 @@ class UserController extends ControllerBase {
 	
 	public function projectsAction($idUser) {
 		$currentUser = User::findFirstByid($idUser);
-		$this->view->setVar("user", $currentUser);
 		$projets = $currentUser->getProjets();
-		$this->view->setVar("projets", $projets);
+		$this->view->setVars(array('user' => $currentUser, 'projets' => $projets));
 	}
 	
 	public function projectAction($id) {
 		$currentProject = Projet::findFirstByid($id);
-		$this->view->setVar("project", $currentProject);
-		$messages = $currentProject->getMessages();
-		$this->view->setVar("messages", $messages);
+		$messages = $currentProject->getMsgs();
 		$client = $currentProject->getUser();
-		$this->view->setVar("client", $client); 
+		$useCase = $currentProject->getUsecases();
+		$this->view->setVars(array('project' => $currentProject, 'messages' => $messages, 'client' => $client, 'useCases' => $useCase));
 	}
 	
 }

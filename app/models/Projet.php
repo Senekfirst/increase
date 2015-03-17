@@ -41,8 +41,8 @@ class Projet extends \Phalcon\Mvc\Model
     
     public function initialize(){
 		$this->belongsTo("idClient", "User", "id");
-		$this->hasMany("id", "Message", "idProjet",array("alias"=>"Messages")); //On y accèdera par getMessages()
-		$this->hasMany("id", "Usecase", "idProjet",array("alias"=>"Usecases")); //On y accèdera par getUsecases()
+		$this->hasMany("id", "Message", "idProjet", array("alias"=>"msgs")); //On y accèdera par getMessages()
+		$this->hasMany("id", "Usecase", "idProjet", array("alias"=>"Usecases")); //On y accèdera par getUsecases()
 	}
 
     /**
