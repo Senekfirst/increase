@@ -24,4 +24,19 @@ class ProjectController extends ControllerBase {
 		$this->jquery->compile($this->view);
 	}
 	
+	public function equipeAction($id){
+		$currentProject = Projet::findFirstByid($id);
+		$useCases = $currentProject->getUsecases();
+		$tab = array();
+		$total = 0;
+		foreach ($useCases as $useCase) {
+			if (!isset($tab[$useCase->getUser()->getIdentite()]))
+				$tab[$useCase->getUser()->getIdentite()] = 0;
+			$tab[$useCase->getUser()->getIdentite()] += $useCase->getPoids();
+			$total += $useCase->getPoids();
+		}
+		
+		$this->view->setVars(array('tableau' => $tab, 'totalPoids' => $total));
+	}
+	
 }

@@ -10,20 +10,11 @@
 		<br>
 		Date Lancement : <?php echo $project->getDateLancement(); ?>
 		<br>
-		Date Fin Prévue : <?php echo $project->getDateFinPrevue(); ?>
+		Date Fin Prï¿½vue : <?php echo $project->getDateFinPrevue(); ?>
 		<br>
 		<h2>Equipe</h2>
-			
+			<!-- Contenu en AJAX -->
 		<?php
-			$tab = array();
-			foreach ($useCases as $useCase) {					
-				if (!isset($tab[$useCase->getUser()->getIdentite()]))
-					$tab[$useCase->getUser()->getIdentite()] = 0;
-				$tab[$useCase->getUser()->getIdentite()] += $useCase->getPoids();
-			}
-			foreach ($tab as $ta => $val) {
-				echo $ta . '[' . $val . ']'."<br/>";
-			}
 			echo $q['btMasquer'];
 			echo '<div id="zoneBoutons">Zone trop cool</div>';
 			echo $script_foot;
