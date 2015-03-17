@@ -42,6 +42,7 @@ class Projet extends \Phalcon\Mvc\Model
     public function initialize(){
 		$this->belongsTo("idClient", "User", "id");
 		$this->hasMany("id", "Message", "idProjet",array("alias"=>"Messages")); //On y accèdera par getMessages()
+		$this->hasMany("id", "Usecase", "idProjet",array("alias"=>"Usecases")); //On y accèdera par getUsecases()
 	}
 
     /**
@@ -180,6 +181,22 @@ class Projet extends \Phalcon\Mvc\Model
     public function getIdclient()
     {
         return $this->idClient;
+    }
+    
+    public function getAvancement() {
+    	$usecases = $this->getUsecases();
+    	$poidsTotal = 0; 
+    	$count = 0;
+    	foreach ($usecases as $usecase) {
+    		$poidsTotal += $usecase->getPoids();
+    		//$count += $usecase->getPoids() * $usecase->getAvancement();
+    	}
+    	
+    	foreach ($usecases as $usecase) {
+    		$count += $usecase->getPoids() / $poidsTotal * 100 * $usecase->getAvancement();
+    	}
+    	
+    	return round($count /100);
     }
 
     /**

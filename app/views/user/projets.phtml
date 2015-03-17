@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Phalcon PHP Framework</title>
+	</head>
+	<body>
+		<h1>Mes projets [<?php echo $user->getIdentite(); ?>]</h1>
+		<?php
+			foreach ($projets as $projet) {
+				$avancement = $projet->getAvancement();
+				echo '<div>';
+				echo '<span>' . $projet->getNom() . '</span>';
+				echo '<div class="progress""><span class="progress-bar progress-bar-success" role="progressbar" style="width:' . $avancement . '%">' . $avancement . ' %</span></div>'; 
+				echo '</div>';
+			}
+		?>
+	</body>
+</html>
