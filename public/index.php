@@ -2,7 +2,7 @@
 
 error_reporting(E_ALL);
 
-try {
+try { //TOTO
 
     /**
      * Read the configuration
