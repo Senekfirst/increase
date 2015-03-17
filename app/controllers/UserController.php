@@ -7,7 +7,7 @@ class UserController extends ControllerBase {
 	
 	}
 	
-	public function projetsAction($idUser) {
+	public function projectsAction($idUser) {
 		$currentUser = User::findFirstByid($idUser);
 		$this->view->setVar("user", $currentUser);
 		$projets = $currentUser->getProjets();
