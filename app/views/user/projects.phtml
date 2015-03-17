@@ -10,7 +10,9 @@
 				$avancement = $projet->getAvancement();
 				echo '<div>';
 				echo '<span>' . $projet->getNom() . '</span>';
-				echo '<div class="progress""><span class="progress-bar progress-bar-success" role="progressbar" style="width:' . $avancement . '%">' . $avancement . ' %</span></div>'; 
+				echo '<div class="progress"><span class="progress-bar progress-bar-'.$projet->getClasseSelonAvancement().'" role="progressbar" style="width:' . $avancement . '%">' . $avancement . ' %</span></div>'; 
+				echo $projet->getAvancementJour().' jour(s) restant';
+				echo '<a href="../project/'.$projet->getId().'"><button class="btn btn-default">Ouvrir...</button></a>';
 				echo '</div>';
 			}
 		?>

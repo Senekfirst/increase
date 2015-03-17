@@ -198,6 +198,56 @@ class Projet extends \Phalcon\Mvc\Model
     	
     	return round($count /100);
     }
+    
+    public function getDuree(){
+    	$format = 'Y-m-d';
+    	$resultat =  date_timestamp_get(DateTime::createFromFormat($format, $this->getDatefinprevue())) - date_timestamp_get(DateTime::createFromFormat($format, $this->getDatelancement()));
+    	if ($resultat > 0){
+    		return $resultat;
+    	} else {
+    		return 0;
+    	}
+    }
+    
+    public function getTempsDepuisDebut(){
+    	$format = 'Y-m-d';
+    	$resultat = date_timestamp_get(DateTime::createFromFormat($format, date($format))) - date_timestamp_get(DateTime::createFromFormat($format, $this->getDatelancement()));
+    	if ($resultat > 0){
+    		return $resultat;
+    	} else {
+    		return 0;
+    	}
+    }
+    
+    public function getPourcentageTempsEcoule(){
+    	if ($this->getDuree() != 0){
+    		return round(($this->getTempsDepuisDebut() / $this->getDuree())*100);
+    	} else {
+    		return 100;
+    	}
+    }
+    
+    public function getTempsEcoule(){
+    	$format = 'Y-m-d';
+    	return (date_timestamp_get(DateTime::createFromFormat($format, date($format))))>(date_timestamp_get(DateTime::createFromFormat($format, $this->getDatefinprevue())));
+    }
+    
+    public function getClasseSelonAvancement(){
+    	if (!$this->getTempsEcoule()){
+	    	if ($this->getPourcentageTempsEcoule() <= $this->getAvancement()){
+	    		return "success";
+	    	} else if ($this->getPourcentageTempsEcoule() > $this->getAvancement()) {
+	    		return "warning";
+	    	}
+    	} else {
+    		return "danger";
+    	}
+    }
+    
+    public function getAvancementJour(){
+    	$nbSecondes= 60*60*24; //Nombre de secondes par jour
+    	return round(($this->getDuree() - $this->getTempsDepuisDebut())/$nbSecondes);
+    }
 
     /**
      * Independent Column Mapping.

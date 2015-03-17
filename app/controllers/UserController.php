@@ -12,9 +12,6 @@ class UserController extends ControllerBase {
 		$this->view->setVar("user", $currentUser);
 		$projets = $currentUser->getProjets();
 		$this->view->setVar("projets", $projets);
-		//foreach ($projets as $projet) {
-			
-		//}
 	}
 	
 }
