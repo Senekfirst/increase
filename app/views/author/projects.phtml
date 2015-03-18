@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Phalcon PHP Framework</title>
+	</head>
+	<body>
+		<h1>Mes projets [<?php echo $user->getIdentite(); ?>]</h1>
+		<?php // Précédente version
+			/*foreach ($projets as $projet) {
+				$avancement = $projet->getAvancement();
+				echo '<div>';
+				echo '<span>' . $projet->getNom() . '</span>';
+				echo '<div class="progress" style="display:inline-block; width:50%; margin-bottom:0; margin-left:10px; margin-right:10px"><span class="progress-bar progress-bar-'.$projet->getClasseSelonAvancement().'" role="progressbar" style="width:' . $avancement . '%">' . $avancement . ' %</span></div>'; 
+				echo '<span>' . $projet->getAvancementJour() .' jour(s) restant(s).</span>';
+				echo '<a href="../project/'.$projet->getId().'"><button class="btn btn-default">Ouvrir...</button></a>';
+				echo '</div>';
+			}*/
+		?>
+		
+		<?php
+			echo '<table>';
+			foreach ($projets as $projet) {
+				$avancement = $projet->getAvancement();
+				echo '<tr>';
+				echo '<td>';
+				echo $projet->getNom();
+				echo '</td>';
+				echo '<td width="70%" style="padding:10px">';
+				echo '<div class="progress" style="margin-bottom:0"><span class="progress-bar progress-bar-'.$projet->getClasseSelonAvancement().'" role="progressbar" style="width:' . $avancement . '%">' . $avancement . ' %</span></div>';
+				echo '</td>';
+				echo '<td style="padding:10px">';
+				echo $projet->getAvancementJour() .' jour(s) restant(s)';
+				echo '</td>';
+				echo '<td style="padding:10px">';
+				echo '<a href="../project/'.$projet->getId().'"><button class="btn btn-default">Ouvrir...</button></a>';
+				echo '</td>';
+				echo '</tr>';
+			}
+			echo '</table>';
+		?>
+	</body>
+</html>

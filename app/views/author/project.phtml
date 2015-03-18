@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Phalcon PHP Framework</title>
+	</head>
+	<body>
+		<h1><?php echo $project->getNom() .' ['.$client->getIdentite() .']'; ?></h1>
+		<h2>Details du projet</h2> 
+		Description : <?php echo $project->getDescription(); ?>
+		<br>
+		Date Lancement : <?php echo $project->getDateLancement(); ?>
+		<br>
+		Date Fin Pr�vue : <?php echo $project->getDateFinPrevue(); ?>
+		<br>
+		<h2>Equipe</h2>
+		<div id="detailProject">Chargement...</div>
+		<?php
+			echo $q['btMasquer'];
+			echo '<div id="ZoneMessages"></div>';
+			echo $script_foot;
+		?>
+	</body>
+</html>

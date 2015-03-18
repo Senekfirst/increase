@@ -41,4 +41,8 @@ class ProjectController extends ControllerBase {
 		$this->view->disableLevel(View::LEVEL_MAIN_LAYOUT); //Ici on coupe la vue venant du dessus, seule cette partie nous intéresse
 	}
 	
+	public function authorAction($idProject, $idAuthor){
+		
+	}
+	
 }
