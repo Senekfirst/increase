@@ -22,8 +22,8 @@ class UserController extends ControllerBase {
 		$this->jquery->get("project/equipe/".$id, "#detailProject");
 		
 		$bootstrap=$this->jquery->bootstrap();
-		$bootstrap->htmlButton("btMasquer","Messages...","btn-primary");
-		$this->jquery->getAndBindTo("#btMasquer", "click", "project/messages/".$id, "#ZoneMessages");
+		$bouton = $bootstrap->htmlButton("btMasquer","Messages...","btn-primary");
+		$bouton->onClick($this->jquery->getDeferred("project/messages/".$id,"#ZoneMessages"));
 		$this->jquery->compile($this->view);
 		
 		$this->view->setVars(array('project' => $currentProject, 'messages' => $messages, 'client' => $client, 'useCases' => $useCase));
