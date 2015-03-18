@@ -1,5 +1,7 @@
 <?php
 
+use Phalcon\Mvc\View;
+
 class ProjectController extends ControllerBase {
 	
 	public function indexAction()
@@ -20,7 +22,7 @@ class ProjectController extends ControllerBase {
 		}
 		
 		$this->view->setVars(array('zones' => $zonesBtn));
-		
+		$this->view->disableLevel(View::LEVEL_MAIN_LAYOUT); //Ici on coupe la vue venant du dessus, seule cette partie nous intéresse
 		$this->jquery->compile($this->view);
 	}
 	
@@ -34,9 +36,9 @@ class ProjectController extends ControllerBase {
 				$tab[$useCase->getUser()->getIdentite()] = 0;
 			$tab[$useCase->getUser()->getIdentite()] += $useCase->getPoids();
 			$total += $useCase->getPoids();
-		}
-		
+		}		
 		$this->view->setVars(array('tableau' => $tab, 'totalPoids' => $total));
+		$this->view->disableLevel(View::LEVEL_MAIN_LAYOUT); //Ici on coupe la vue venant du dessus, seule cette partie nous intéresse
 	}
 	
 }

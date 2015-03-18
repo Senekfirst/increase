@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Phalcon PHP Framework</title>
+	</head>
+	<body>
+		<?php 
+			foreach ($tableau as $ta => $val) {
+				echo $ta . ' [' . round($val / $totalPoids * 100) . '%]'."<br/>";
+			}
+		?>
+	</body>
+</html>
