@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>Increase</title>
-		{{ stylesheet_link("css/bootstrap.min.css") }}
-		{{ stylesheet_link("css/styles.css") }}
-		{{ javascript_include('js/jquery.min.js') }}
-		{{ javascript_include('js/bootstrap.min.js') }}
+		<?php echo $this->tag->stylesheetLink('css/bootstrap.min.css'); ?>
+		<?php echo $this->tag->stylesheetLink('css/styles.css'); ?>
+		<?php echo $this->tag->javascriptInclude('js/jquery.min.js'); ?>
+		<?php echo $this->tag->javascriptInclude('js/bootstrap.min.js'); ?>
 	</head>
 	<body>
 	<div class="bs-docs-header">
@@ -23,7 +23,7 @@
 			</ol>
 	</div>
 	<div class="container">
-		{{ content() }}
+		<?php echo $this->getContent(); ?>
 	</div>
 </body>
 </html>

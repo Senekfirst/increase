@@ -9,15 +9,22 @@ use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Ajax\JsUtils;
 use Ajax\Bootstrap;
+use Phalcon\Mvc\Dispatcher;
+use Phalcon\Flash\Session as FlashSession;
+use Phalcon\Events\Manager as EventsManager;
 
-/**
- * The FactoryDefault Dependency Injector automatically register the right services providing a full stack framework
- */
 $di = new FactoryDefault();
 
-/**
- * The URL component is used to generate all kind of urls in the application
- */
+$di->set('dispatcher', function() use ($di) {
+	$eventsManager = new EventsManager;
+	$eventsManager->attach('dispatch:beforeDispatch', new SecurityPlugin);
+	$eventsManager->attach('dispatch:beforeException', new NotFoundPlugin);
+	$dispatcher = new Dispatcher;
+	$dispatcher->setEventsManager($eventsManager);
+
+	return $dispatcher;
+});
+
 $di->set('url', function () use ($config) {
     $url = new UrlResolver();
     $url->setBaseUri($config->application->baseUri);
@@ -25,9 +32,6 @@ $di->set('url', function () use ($config) {
     return $url;
 }, true);
 
-/**
- * Setting up the view component
- */
 $di->set('view', function () use ($config) {
 
     $view = new View();
@@ -52,9 +56,6 @@ $di->set('view', function () use ($config) {
     return $view;
 }, true);
 
-/**
- * Database connection is created based in the parameters defined in the configuration file
- */
 $di->set('db', function () use ($config) {
     return new DbAdapter(array(
         'host' => $config->database->host,
@@ -64,11 +65,16 @@ $di->set('db', function () use ($config) {
     ));
 });
 
-/**
- * If the configuration specify the use of metadata adapter use it or use memory otherwise
- */
 $di->set('modelsMetadata', function () {
     return new MetaDataAdapter();
+});
+
+$di->set('flash', function(){
+	return new FlashSession(array(
+		'error'   => 'alert alert-danger',
+		'success' => 'alert alert-success',
+		'notice'  => 'alert alert-info',
+	));
 });
 
 $di->set("jquery",function(){
@@ -79,9 +85,6 @@ $di->set("jquery",function(){
 	return $jquery;
 });
 
-/**
- * Start the session the first time some component request the session service
- */
 $di->set('session', function () {
     $session = new SessionAdapter();
     $session->start();
