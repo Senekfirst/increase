@@ -5,7 +5,6 @@ class ErrorsController extends ControllerBase
     public function initialize()
     {
         $this->tag->setTitle('Oops!');
-        parent::initialize();
     }
 
     public function show404Action()
@@ -21,6 +20,6 @@ class ErrorsController extends ControllerBase
 
     public function show500Action()
     {
-
+    	$this->flash->error("Un problème a été détecté");
     }
 }

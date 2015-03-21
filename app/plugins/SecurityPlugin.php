@@ -44,12 +44,12 @@ class SecurityPlugin extends Plugin
 
 			//Private area resources
 			$userResources = array(
-				'user' => array('project', 'projetcs'),
+				'user' => array('project', 'projects'),
 				'project' => array('messages', 'equipe')
 			);
 			
 			$authorResources = array(
-				'author' => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
+				'author' => array('project', 'projects'),
 				'project' => array('author')
 			);
 			
@@ -70,7 +70,7 @@ class SecurityPlugin extends Plugin
 				$acl->addResource(new Resource($resource), $actions);
 			}
 
-			//Grant access to public areas to both users and guests
+			//Grant access to public areas
 			foreach ($roles as $role) {
 				foreach ($publicResources as $resource => $actions) {
 					foreach ($actions as $action){
@@ -124,7 +124,7 @@ class SecurityPlugin extends Plugin
 				$role = 'Guests';
 			}
 		} else {
-			$role = 'Author';
+			$role = 'Users';
 		}
 
 		$controller = $dispatcher->getControllerName();
