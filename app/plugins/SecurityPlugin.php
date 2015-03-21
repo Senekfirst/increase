@@ -30,8 +30,8 @@ class SecurityPlugin extends Plugin
 
 			$acl = new AclList();
 
-			$acl->setDefaultAction(Acl::DENY);
-
+			$acl->setDefaultAction(Acl::ALLOW);
+			/*
 			//Register roles
 			$roles = array(
 				'users'  => new Role('Users'),
@@ -92,6 +92,7 @@ class SecurityPlugin extends Plugin
 					$acl->allow('Author', $resource, $action);
 				}
 			}
+			*/
 
 			//The acl is stored in session, APC would be useful here too
 			$this->persistent->acl = $acl;
