@@ -35,9 +35,13 @@ class ProjectController extends ControllerBase {
 		$count = 0;
 		$zonesPanel = array();
 		foreach($messages as $message){
-			$panel = $bootstrap->htmlPanel("panel".$count);
-			$panel->addHeader($message->getObjet());
-			$panel->addFooter($message->getContent());
+			$panel = '<div class="panel panel-primary">
+						<div class="panel-heading" onClick="document.getElementById(\'body' . $count . '\').style.display === \'block\'? document.getElementById(\'body' . $count . '\').style.display=\'none\' : document.getElementById(\'body' . $count . '\').style.display=\'block\'">
+							<h3 class="panel-title"> ' . $message->getObjet() . '</h3>
+						</div>
+						<div class="panel-body" style="display:none" id="body' . $count . '">' . $message->getContent() . '</div>
+					  </div>';
+
 			$zonesPanel[$count] = $panel;
 			$count++;
 		}
@@ -45,6 +49,27 @@ class ProjectController extends ControllerBase {
 		$this->view->setVars(array('panels' => $zonesPanel));
 		$this->jquery->compile($this->view);
 	}
+	
+	/* // Version avec htmlPanel, mais qui ne fonctionne pas...Attention à modifier la vue en conséquence si on remet cette version du la méthode en prod
+	public function testMessagesAction($id) {
+	    $bootstrap=$this->jquery->bootstrap();
+	    $currentProject = Projet::findFirstByid($id);
+	    $messages = $currentProject->getMsgs();
+	    
+	    $count = 0;
+	    $zonesPanel = array();
+	    foreach($messages as $message){
+	        $panel = $bootstrap->htmlPanel("panel".$count);
+	        $panel->addHeader($message->getObjet());
+	        $panel->addFooter($message->getContent());
+	        $zonesPanel[$count] = $panel;
+	        $count++;
+	    }
+	
+	    $this->view->setVars(array('panels' => $zonesPanel));
+	    $this->jquery->compile($this->view);
+	}
+	 */
 	
 	public function equipeAction($id){
 		$currentProject = Projet::findFirstByid($id);
