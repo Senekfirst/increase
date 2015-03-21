@@ -1,5 +1,4 @@
 <?php
-
 use Phalcon\Acl;
 use Phalcon\Acl\Role;
 use Phalcon\Acl\Resource;
@@ -7,7 +6,6 @@ use Phalcon\Events\Event;
 use Phalcon\Mvc\User\Plugin;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Acl\Adapter\Memory as AclList;
-
 /**
  * SecurityPlugin
  *
@@ -15,7 +13,6 @@ use Phalcon\Acl\Adapter\Memory as AclList;
  */
 class SecurityPlugin extends Plugin
 {
-
 	/**
 	 * Returns an existing or new access control list
 	 *
@@ -23,84 +20,72 @@ class SecurityPlugin extends Plugin
 	 */
 	public function getAcl()
 	{
-
+		
 		//throw new \Exception("something");
-
-		if (!isset($this->persistent->acl)) {
-
+		//if (!isset($this->persistent->acl)) {
+			
 			$acl = new AclList();
-
-			$acl->setDefaultAction(Acl::ALLOW);
-			/*
+			$acl->setDefaultAction(Acl::DENY);
+			
 			//Register roles
 			$roles = array(
 				'users'  => new Role('Users'),
-				'author'  => new Role('Author'),
+				'Authors'  => new Role('Authors'),
 				'guests' => new Role('Guests')
 			);
 			foreach ($roles as $role) {
 				$acl->addRole($role);
 			}
-
 			//Private area resources
 			$userResources = array(
-				'user' => array('project', 'projects'),
-				'project' => array('messages', 'equipe')
+				'user' => array('index', 'project', 'projects'),
+				'project' => array('index', 'messages', 'equipe')
 			);
 			
 			$authorResources = array(
-				'author' => array('project', 'projects'),
-				'project' => array('author')
+				'author' => array('index', 'project', 'projects')
 			);
 			
-			array_push($authorResources, $userResources); //L'auteur a accès aux ressources des utilisateurs en plus des siennes
+			$authorResources = array_merge($authorResources, $userResources); //L'auteur a accès aux ressources des utilisateurs en plus des siennes
 			
 			foreach ($authorResources as $resource => $actions) {
 				$acl->addResource(new Resource($resource), $actions);
 			}
-
+			
 			//Public area resources
 			$publicResources = array(
 				'index'      => array('index'),
 				'errors'     => array('show404', 'show500', 'show401'),
-				'session'    => array('index', 'register', 'start', 'end')
+				'session'    => array('index', '_register', 'start', 'end')
 			);
 			
 			foreach ($publicResources as $resource => $actions) {
 				$acl->addResource(new Resource($resource), $actions);
 			}
-
 			//Grant access to public areas
 			foreach ($roles as $role) {
 				foreach ($publicResources as $resource => $actions) {
-					foreach ($actions as $action){
-						$acl->allow($role->getName(), $resource, $action);
-					}
+					$acl->allow($role->getName(), $resource, '*');
 				}
 			}
-
-			//Grant acess to users area to role Users
+			
 			foreach ($userResources as $resource => $actions) {
 				foreach ($actions as $action){
 					$acl->allow('Users', $resource, $action);
 				}
 			}
 			
-			//Grant acess to author area to role author
+			//Grant acess to Authors area to role Authors
 			foreach ($authorResources as $resource => $actions) {
 				foreach ($actions as $action){
-					$acl->allow('Author', $resource, $action);
+					$acl->allow('Authors', $resource, $action);
 				}
 			}
-			*/
-
-			//The acl is stored in session, APC would be useful here too
+			
 			$this->persistent->acl = $acl;
-		}
-
+		//}
 		return $this->persistent->acl;
 	}
-
 	/**
 	 * This action is executed before execute any action in the application
 	 *
@@ -110,7 +95,7 @@ class SecurityPlugin extends Plugin
 	public function beforeDispatch(Event $event, Dispatcher $dispatcher)
 	{
 		$user= $this->session->get('user');
-		if (isset($user)){
+		if (isset($user) && $user != false){
 			$roles = explode(",",$user->getRole()); //On récupère les rôles de l'user, comme il peut en avoir plusieurs d'après la base de données on les explode
 			$tabRoles = array();
 			foreach($roles as $role){
@@ -118,21 +103,20 @@ class SecurityPlugin extends Plugin
 			}
 			
 			if (isset($tabRoles['author'])){
-				$role = 'Users';
+				$role = 'Authors';
 			} else if (isset($tabRoles['user'])){
-				$role = 'Author';
+				$role = 'Users';
 			} else {
 				$role = 'Guests';
 			}
 		} else {
 			$role = 'Users';
+			//Quand ça fonctionnera on mettra "Guests"
 		}
-
 		$controller = $dispatcher->getControllerName();
 		$action = $dispatcher->getActionName();
-
 		$acl = $this->getAcl();
-
+		return true;
 		if ($acl->isResource($controller)){
 			$allowed = $acl->isAllowed($role, $controller, $action);
 			if ($allowed != Acl::ALLOW) {
