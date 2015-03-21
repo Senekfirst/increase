@@ -13,6 +13,7 @@ class ProjectController extends ControllerBase {
 		$bootstrap=$this->jquery->bootstrap();
 		$currentProject = Projet::findFirstByid($id);
 		$messages = $currentProject->getMsgs();
+		
 		$count = 0;
 		$zonesBtn = array();
 		foreach($messages as $message){
@@ -23,6 +24,25 @@ class ProjectController extends ControllerBase {
 		
 		$this->view->setVars(array('zones' => $zonesBtn));
 		$this->view->disableLevel(View::LEVEL_MAIN_LAYOUT); //Ici on coupe la vue venant du dessus, seule cette partie nous intéresse
+		$this->jquery->compile($this->view);
+	}
+	
+	public function testMessagesAction($id) {
+		$bootstrap=$this->jquery->bootstrap();
+		$currentProject = Projet::findFirstByid($id);
+		$messages = $currentProject->getMsgs();
+		
+		$count = 0;
+		$zonesPanel = array();
+		foreach($messages as $message){
+			$panel = $bootstrap->htmlPanel("panel".$count);
+			$panel->addHeader($message->getObjet());
+			$panel->addFooter($message->getContent());
+			$zonesPanel[$count] = $panel;
+			$count++;
+		}
+		
+		$this->view->setVars(array('panels' => $zonesPanel));
 		$this->jquery->compile($this->view);
 	}
 	
