@@ -20,9 +20,8 @@ class SecurityPlugin extends Plugin
 	 */
 	public function getAcl()
 	{
-		
 		//throw new \Exception("something");
-		//if (!isset($this->persistent->acl)) {
+		if (!isset($this->persistent->acl)) {
 			
 			$acl = new AclList();
 			$acl->setDefaultAction(Acl::DENY);
@@ -83,7 +82,7 @@ class SecurityPlugin extends Plugin
 			}
 			
 			$this->persistent->acl = $acl;
-		//}
+		}
 		return $this->persistent->acl;
 	}
 	/**
@@ -110,8 +109,7 @@ class SecurityPlugin extends Plugin
 				$role = 'Guests';
 			}
 		} else {
-			$role = 'Users';
-			//Quand ça fonctionnera on mettra "Guests"
+			$role = 'Guests';
 		}
 		$controller = $dispatcher->getControllerName();
 		$action = $dispatcher->getActionName();

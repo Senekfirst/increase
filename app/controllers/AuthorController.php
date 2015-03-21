@@ -23,10 +23,10 @@ class AuthorController extends ControllerBase {
 		$messages = $currentProject->getMsgs();
 		$client = $currentProject->getUser();
 		$useCase = $currentProject->getUsecases();
+				
+		$user= $this->session->get('user');
 		
-		$tempIDAuthor = 1; //Pour l'instant on ne peut pas le récupérer
-		
-		$this->jquery->get("project/author/".$id."/".$tempIDAuthor, "#detailProject");
+		$this->jquery->get("project/author/".$id."/".$user->getId(), "#detailProject");
 		
 		$bootstrap=$this->jquery->bootstrap();
 		$bouton = $bootstrap->htmlButton("btMasquer","Messages...","btn-primary");
