@@ -1,4 +1,5 @@
 <?php
+use Phalcon\Mvc\View;
 
 class AuthorController extends ControllerBase {
 	
@@ -19,7 +20,7 @@ class AuthorController extends ControllerBase {
 		$bootstrap=$this->jquery->bootstrap();
 		foreach($projets as $projet){
 			$bouton = $bootstrap->htmlButton("btProjet".$projet->getId(),"Ouvrir...","btn-primary");
-			$bouton->onClick($this->jquery->getDeferred("user/project/".$projet->getId(),"#containerProjet"));
+			$bouton->onClick($this->jquery->getDeferred("author/project/".$projet->getId(),"#containerProjet"));
 		}
 		
 		$this->jquery->compile($this->view);
@@ -39,6 +40,9 @@ class AuthorController extends ControllerBase {
 		$bootstrap=$this->jquery->bootstrap();
 		$bouton = $bootstrap->htmlButton("btMasquer","Messages...","btn-primary");
 		$bouton->onClick($this->jquery->getDeferred("project/messages/".$id,"#ZoneMessages"));
+		
+		$boutonII = $bootstrap->htmlButton("btFermer","Fermer le projet","btn-default");
+		$boutonII->onClick($this->jquery->getDeferred("author/projects","#containerProjet"));
 		
 		$this->view->disableLevel(View::LEVEL_MAIN_LAYOUT); //Ici on coupe la vue venant du dessus, seule cette partie nous intéresse
 		
