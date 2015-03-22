@@ -1,4 +1,5 @@
 <?php
+use Phalcon\Mvc\View;
 
 class UserController extends ControllerBase {
 	
@@ -7,9 +8,19 @@ class UserController extends ControllerBase {
 	
 	}
 	
-	public function projectsAction($idUser) {
-		$currentUser = User::findFirstByid($idUser);
+	public function projectsAction() {
+		$user = $this->session->get('user');
+		$currentUser = User::findFirstByid($user->getId());
 		$projets = $currentUser->getProjets();
+		$bootstrap=$this->jquery->bootstrap();
+		foreach($projets as $projet){
+			$bouton = $bootstrap->htmlButton("btProjet".$projet->getId(),"Ouvrir...","btn-primary");
+			$bouton->onClick($this->jquery->getDeferred("user/project/".$projet->getId(),"#containerProjet"));
+		}
+		
+		//$this->view->disableLevel(View::LEVEL_MAIN_LAYOUT); //Ici on coupe la vue venant du dessus, seule cette partie nous intéresse
+		
+		$this->jquery->compile($this->view);
 		$this->view->setVars(array('user' => $currentUser, 'projets' => $projets));
 	}
 	
@@ -24,6 +35,9 @@ class UserController extends ControllerBase {
 		$bootstrap=$this->jquery->bootstrap();
 		$bouton = $bootstrap->htmlButton("btMasquer","Messages...","btn-primary");
 		$bouton->onClick($this->jquery->getDeferred("project/messages/".$id,"#ZoneMessages"));
+		
+		$this->view->disableLevel(View::LEVEL_MAIN_LAYOUT); //Ici on coupe la vue venant du dessus, seule cette partie nous intéresse
+		
 		$this->jquery->compile($this->view);
 		
 		$this->view->setVars(array('project' => $currentProject, 'messages' => $messages, 'client' => $client, 'useCases' => $useCase));

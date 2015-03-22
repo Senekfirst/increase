@@ -1,4 +1,5 @@
 <?php
+use Phalcon\Mvc\View;
 
 /**
  * SessionController
@@ -7,12 +8,28 @@
  */
 class SessionController extends ControllerBase
 {
+	private function javaToPhpSha($str){
+		$k=hash("sha256", $str,true);
+		$hex_array = array();
+		foreach (str_split($k) as $chr) {
+			$o=ord($chr);
+			if($o>127)
+				$o=$o-256;
+			elseif ($o<-127)
+			$o=$o+256;
+			$hex_array[] = sprintf("%02x", $o);
+		}
+		$key=implode('',$hex_array);
+		return $key;
+	}
+	
     public function indexAction()
     {
     	if (!$this->request->isPost()) {
     		$this->tag->setDefault('email', 'demo@phalconphp.com');
     		$this->tag->setDefault('password', 'phalcon');
     	}
+    	$this->view->disableLevel(View::LEVEL_MAIN_LAYOUT); //Ici on coupe la vue venant du dessus, seule cette partie nous intéresse
     }
     
     private function _registerSession(User $user)
@@ -30,9 +47,8 @@ class SessionController extends ControllerBase
 
             $user = User::findFirst(array(
                 "(mail = :mail: OR identite = :mail:) AND password = :password:",
-                'bind' => array('mail' => $email, 'password' => $password)
+                'bind' => array('mail' => $email, 'password' => $this->javaToPhpSha($password))
             ));
-            //hash('Sha256', $password)
             
             if ($user != false) {
                 $this->_registerSession($user);
@@ -63,6 +79,7 @@ class SessionController extends ControllerBase
     {
         $this->session->remove('user');
         $this->flash->success('A bientôt !');
+        $this->view->disableLevel(View::LEVEL_MAIN_LAYOUT); //Ici on coupe la vue venant du dessus, seule cette partie nous intéresse
         return $this->forward('index/index');
     }
 }
