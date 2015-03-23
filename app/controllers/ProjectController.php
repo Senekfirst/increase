@@ -1,6 +1,8 @@
 <?php
 
 use Phalcon\Mvc\View;
+use Ajax\bootstrap\html\HtmlPanel;
+use Ajax\bootstrap\html\base\CssRef;
 
 class ProjectController extends ControllerBase {
 	
@@ -9,7 +11,7 @@ class ProjectController extends ControllerBase {
 	
 	}
 	
-	public function messagesAction($id) {
+	/*public function messagesAction($id) {
 		$bootstrap=$this->jquery->bootstrap();
 		$currentProject = Projet::findFirstByid($id);
 		$messages = $currentProject->getMsgs();
@@ -25,9 +27,9 @@ class ProjectController extends ControllerBase {
 		$this->view->setVars(array('zones' => $zonesBtn));
 		$this->view->disableLevel(View::LEVEL_MAIN_LAYOUT); //Ici on coupe la vue venant du dessus, seule cette partie nous intéresse
 		$this->jquery->compile($this->view);
-	}
+	}*/
 	
-	public function testMessagesAction($id) {
+	/*public function testMessagesAction($id) {
 		$bootstrap=$this->jquery->bootstrap();
 		$currentProject = Projet::findFirstByid($id);
 		$messages = $currentProject->getMsgs();
@@ -48,10 +50,10 @@ class ProjectController extends ControllerBase {
 		
 		$this->view->setVars(array('panels' => $zonesPanel));
 		$this->jquery->compile($this->view);
-	}
+	}*/
 	
-	/* // Version avec htmlPanel, mais qui ne fonctionne pas...Attention à modifier la vue en conséquence si on remet cette version du la méthode en prod
-	public function testMessagesAction($id) {
+	// Version avec htmlPanel, mais qui ne fonctionne pas...Attention à modifier la vue en conséquence si on remet cette version du la méthode en prod
+	public function messagesAction($id) {
 	    $bootstrap=$this->jquery->bootstrap();
 	    $currentProject = Projet::findFirstByid($id);
 	    $messages = $currentProject->getMsgs();
@@ -59,17 +61,22 @@ class ProjectController extends ControllerBase {
 	    $count = 0;
 	    $zonesPanel = array();
 	    foreach($messages as $message){
-	        $panel = $bootstrap->htmlPanel("panel".$count);
-	        $panel->addHeader($message->getObjet());
-	        $panel->addFooter($message->getContent());
+	    	$idPanel = "panel" . $count;
+	        $panel = new HtmlPanel($idPanel);
+	        $panel->setContent($message->getContent());
+	        $panel->setStyle(CssRef::CSS_PRIMARY);
+	        $panel->addHeaderH("<a id='lnk-" . $idPanel . "' href='#collapse-" . $idPanel . "'>" . $message->getObjet() . "</a>","3");
+	        $panel->setCollapsable(true);
+	        $panel->compile($this->jquery, $this->view);
 	        $zonesPanel[$count] = $panel;
 	        $count++;
 	    }
 	
 	    $this->view->setVars(array('panels' => $zonesPanel));
 	    $this->jquery->compile($this->view);
+	    $this->view->disableLevel(View::LEVEL_MAIN_LAYOUT);
 	}
-	 */
+	
 	
 	public function equipeAction($id){
 		$currentProject = Projet::findFirstByid($id);
