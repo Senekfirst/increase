@@ -26,8 +26,8 @@ class SessionController extends ControllerBase
     public function indexAction()
     {
     	if (!$this->request->isPost()) {
-    		$this->tag->setDefault('email', 'demo@phalconphp.com');
-    		$this->tag->setDefault('password', 'phalcon');
+    		$this->tag->setDefault('email', 'johndoe@kobject.net');
+    		$this->tag->setDefault('password', '0000');
     	}
     	$this->view->disableLevel(View::LEVEL_MAIN_LAYOUT); //Ici on coupe la vue venant du dessus, seule cette partie nous intéresse
     }
@@ -62,9 +62,9 @@ class SessionController extends ControllerBase
 				}
 				
 				if (isset($tabRoles['author'])){
-					return $this->forward('author/projects/'.$user->getId());
+					return $this->forward('author/projects');
 				} else {
-					return $this->forward('user/projects/'.$user->getId());
+					return $this->forward('user/projects');
 				}
                 
             }

@@ -27,7 +27,7 @@
 					echo $projet->getNom();
 					echo '</td>';
 					echo '<td width="70%" style="padding:10px">';
-					echo '<div class="progress" style="margin-bottom:0"><span class="progress-bar progress-bar-'.$projet->getClasseSelonAvancement().'" role="progressbar" style="width:' . $avancement . '%">' . $avancement . ' %</span></div>';
+					echo '<div class="progress" style="margin-bottom:0"><span class="progress-bar progress-striped progress-bar-'.$projet->getClasseSelonAvancement().'" role="progressbar" style="width:' . $avancement . '%">' . $avancement . ' %</span></div>';
 					echo '</td>';
 					echo '<td style="padding:10px">';
 					echo $projet->getAvancementJour() .' jour(s) restant(s)';

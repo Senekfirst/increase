@@ -63,7 +63,7 @@ class ProjectController extends ControllerBase {
 	}
 	
 	public function authorAction($idProject, $idAuthor){
-		
+		$this->view->disableLevel(View::LEVEL_MAIN_LAYOUT);
 	}
 	
 }
