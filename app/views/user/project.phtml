@@ -10,11 +10,12 @@
 		<br>
 		Date Lancement : <?php echo $project->getDateLancement(); ?>
 		<br>
-		Date Fin Pr�vue : <?php echo $project->getDateFinPrevue(); ?>
+		Date Fin Prévue : <?php echo $project->getDateFinPrevue(); ?>
 		<br>
 		<h2>Equipe</h2>
 		<div id="detailProject">Chargement...</div>
 		<?php
+			echo '</br>';
 			echo $q['btMasquer'];
 			echo '<div id="ZoneMessages"></div>';
 			echo $q["btFermer"];
