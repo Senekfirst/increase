@@ -66,7 +66,7 @@ class ProjectController extends ControllerBase {
 	        $panel->setContent($message->getContent());
 	        $panel->setStyle(CssRef::CSS_PRIMARY);
 	        $panel->addHeaderH("<a id='lnk-" . $idPanel . "' href='#collapse-" . $idPanel . "'>" . $message->getObjet() . "</a>","3");
-	        $panel->setCollapsable(true);
+	        $panel->setCollapsable(false);
 	        $panel->compile($this->jquery, $this->view);
 	        $zonesPanel[$count] = $panel;
 	        $count++;
