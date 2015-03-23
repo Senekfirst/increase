@@ -19,9 +19,9 @@ class IndexController extends ControllerBase
 				$tabRoles[$role] = true;
 			}
 			if (isset($tabRoles['author'])){
-				$boutonII->onClick($this->jquery->getDeferred("author/projects/".$user->getId(),"#divResponse"));
+				$boutonII->onClick($this->jquery->getDeferred("author/projects/".$user->getId(),"#contenu"));
 			} else {
-				$boutonII->onClick($this->jquery->getDeferred("user/projects/".$user->getId(),"#divResponse"));
+				$boutonII->onClick($this->jquery->getDeferred("user/projects/".$user->getId(),"#contenu"));
 			}
 			
     	} else {

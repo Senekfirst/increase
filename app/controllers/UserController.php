@@ -15,10 +15,10 @@ class UserController extends ControllerBase {
 		$bootstrap=$this->jquery->bootstrap();
 		foreach($projets as $projet){
 			$bouton = $bootstrap->htmlButton("btProjet".$projet->getId(),"Ouvrir...","btn-primary");
-			$bouton->onClick($this->jquery->getDeferred("user/project/".$projet->getId(),"#containerProjet"));
+			$bouton->onClick($this->jquery->getDeferred("user/project/".$projet->getId(),"#contenu"));
 		}
 		
-		//$this->view->disableLevel(View::LEVEL_MAIN_LAYOUT); //Ici on coupe la vue venant du dessus, seule cette partie nous intéresse
+		$this->view->disableLevel(View::LEVEL_MAIN_LAYOUT); //Ici on coupe la vue venant du dessus, seule cette partie nous intéresse
 		
 		$this->jquery->compile($this->view);
 		$this->view->setVars(array('user' => $currentUser, 'projets' => $projets));
@@ -37,7 +37,7 @@ class UserController extends ControllerBase {
 		$bouton->onClick($this->jquery->getDeferred("project/messages/".$id,"#ZoneMessages"));
 		
 		$boutonII = $bootstrap->htmlButton("btFermer","Fermer le projet","btn-default");
-		$boutonII->onClick($this->jquery->getDeferred("user/projects","#containerProjet"));
+		$boutonII->onClick($this->jquery->getDeferred("user/projects","#contenu"));
 		
 		$this->view->disableLevel(View::LEVEL_MAIN_LAYOUT); //Ici on coupe la vue venant du dessus, seule cette partie nous intéresse
 		
